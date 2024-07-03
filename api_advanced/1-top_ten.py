@@ -1,15 +1,22 @@
 #!/usr/bin/python3
-"""Return number of subscribers for a given subreddit"""
+"""Print the titles of the first 10Hot Posts"""
 import requests
 
 
-def number_of_subscribers(subreddit):
-    """Return the number of subscribers """
-    url = "https://www.reddit.com/r/{}/about.json" \
-        .format(subreddit)
-    headers = {'User-Agent': 'My User Agent 1.0'}
+def top_ten(subreddit):
+    """The top ten titles"""
+    headers = {'User-Agent': 'MyAPI/0.0.1'}
+    url = "https://reddit.com/r/{}.json".format(subreddit)
     response = requests.get(url, headers=headers)
+
     if response.status_code == 200:
-        return response.json().get('data') \
-            .get('subscribers')
-    return 0
+        json_data = response.json()
+        for i in range(10):
+            print(
+                    json_data.get('data')
+                    .get('children')[i]
+                    .get('data')
+                    .get('title')
+                )
+    else:
+        print(None)
